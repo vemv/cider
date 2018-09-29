@@ -382,7 +382,7 @@ With the actual value, the outermost '(not ...)' s-expression is removed."
           (cider-insert (capitalize type) type-face nil " in ")
           (cider-insert var 'font-lock-function-name-face t)
           (when context  (cider-insert context 'font-lock-doc-face t))
-          (when message  (cider-insert message 'font-lock-doc-string-face t))
+          (when message  (cider-insert message 'font-lock-string-face t))
           (when expected
             (cider-insert "expected: " 'font-lock-comment-face nil
                           (cider-font-lock-as-clojure expected)))

@@ -58,6 +58,12 @@ If nil, messages will not be wrapped.  If truthy but non-numeric,
   :group 'cider-stacktrace
   :package-version '(cider . "0.6.0"))
 
+(defcustom cider-stacktrace-default-positive-filters '()
+  "Frame types to exclusively show in the initial stacktrace display."
+  :type 'list
+  :group 'cider-stacktrace
+  :package-version '(cider . "0.19.0"))
+
 (defcustom cider-stacktrace-print-length 50
   "Set the maximum length of sequences in displayed cause data.
 
@@ -239,6 +245,7 @@ The error types are represented as strings."
   (setq-local cider-stacktrace-prior-filters nil)
   (setq-local cider-stacktrace-hidden-frame-count 0)
   (setq-local cider-stacktrace-filters cider-stacktrace-default-filters)
+  (setq-local cider-stacktrace-positive-filters cider-stacktrace-default-positive-filters)
   (setq-local cider-stacktrace-cause-visibility (make-vector 10 0)))
 
 

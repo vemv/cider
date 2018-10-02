@@ -819,7 +819,6 @@ property."
   (lambda (beg end &rest rest)
     (with-silent-modifications
       (remove-text-properties beg end '(cider-locals nil cider-block-dynamic-font-lock nil))
-      (add-text-properties beg end '(help-echo cider--help-echo))
       (when cider-font-lock-dynamically
         (cider--update-locals-for-region beg end)))
     (apply func beg end rest)))

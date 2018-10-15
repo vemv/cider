@@ -530,7 +530,7 @@ thing at point."
          (kw-ns (if ns-qualifier
                     (cider-resolve-alias (cider-current-ns) ns-qualifier)
                   (cider-current-ns)))
-         (kw-to-find (concat "::" (replace-regexp-in-string "^:+\\(.+/\\)?" "" kw))))
+         (kw-to-find (concat "::" (replace-regexp-in-string "^:+\\(.+/\\)?" "" kw) " ")))
 
     (when (and ns-qualifier (string= kw-ns (cider-current-ns)))
       (error "Could not resolve alias `%s' in `%s'" ns-qualifier (cider-current-ns)))

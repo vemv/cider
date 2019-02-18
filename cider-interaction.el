@@ -530,12 +530,16 @@ thing at point."
          (kw-ns (if ns-qualifier
                     (cider-resolve-alias (cider-current-ns) ns-qualifier)
                   (cider-current-ns)))
-         (kw-to-find (concat "::" (replace-regexp-in-string "^:+\\(.+/\\)?" "" kw) " ")))
+         (kw-to-find (concat "::" (replace-regexp-in-string "^:+\\(.+/\\)?" "" kw) " "))
+         (fallback (concat "::" (replace-regexp-in-string "^:+\\(.+/\\)?" "" kw))))
 
     (when (and ns-qualifier (string= kw-ns (cider-current-ns)))
       (error "Could not resolve alias `%s' in `%s'" ns-qualifier (cider-current-ns)))
     (cider--find-ns kw-ns arg)
-    (search-forward-regexp kw-to-find nil 'noerror)))
+    (or (search-forward-regexp kw-to-find nil 'noerror)
+        (progn
+          (beginning-of-buffer)
+          (search-forward-regexp fallback nil 'noerror)))))
 
 (defvar cider-completion-last-context nil)
 

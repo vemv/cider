@@ -100,7 +100,8 @@ and be case-sensitive (based on CASE-SENSITIVE-P)."
            (help (concat "Display doc for this " (downcase label))))
       (cider-propertize-region (list 'apropos-symbol name
                                      'action 'cider-apropos-doc
-                                     'help-echo help)
+                                     ;; 'help-echo help
+                                     )
         (insert-text-button name 'type 'apropos-symbol)
         (insert "\n  ")
         (insert-text-button label 'type (intern (concat "apropos-" type)))

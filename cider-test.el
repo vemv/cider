@@ -377,20 +377,21 @@ With the actual value, the outermost '(not ...)' s-expression is removed."
     (nrepl-dbind-response test (var context type message expected actual error gen-input)
       (cider-propertize-region (cider-intern-keys (cdr test))
         (let ((beg (point))
-              (type-face (cider-test-type-simple-face type))
-              (bg `(:background ,cider-test-items-background-color)))
-          (cider-insert (capitalize type) type-face nil " in ")
+              (type-face `(:foreground ,vemv-default-foreground-color :background "firebrick"))
+              (bg `(:background ,cider-test-items-background-color))
+              (indicator-face `(:foreground ,vemv-default-foreground-color-very-slightly-darker)))
+          (cider-insert (upcase type) type-face nil " in ")
           (cider-insert var 'font-lock-function-name-face t)
           (when context  (cider-insert context 'font-lock-doc-face t))
           (when message  (cider-insert message 'font-lock-string-face t))
           (when expected
-            (cider-insert "expected: " 'font-lock-comment-face nil
+            (cider-insert "expected: " indicator-face nil
                           (cider-font-lock-as-clojure expected)))
           (when actual
-            (cider-insert "  actual: " 'font-lock-comment-face nil
+            (cider-insert "  actual: " indicator-face nil
                           (cider-font-lock-as-clojure actual)))
           (when error
-            (cider-insert "   error: " 'font-lock-comment-face nil)
+            (cider-insert "   error: " indicator-face nil)
             (insert-text-button error
                                 'follow-link t
                                 'action '(lambda (_button) (cider-test-stacktrace))
@@ -399,7 +400,7 @@ With the actual value, the outermost '(not ...)' s-expression is removed."
           (when gen-input
             (cider-insert "   input: " 'font-lock-comment-face nil
                           (cider-font-lock-as-clojure gen-input)))
-          (overlay-put (make-overlay beg (point)) 'font-lock-face bg))
+          (overlay-put (make-overlay beg (point)) 'font-lock-face "firebrick"))
         (insert "\n")))))
 
 (defun cider-test-non-passing (tests)

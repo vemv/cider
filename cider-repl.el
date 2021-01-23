@@ -991,7 +991,15 @@ With a prefix argument CLEAR-REPL it will clear the entire REPL buffer instead."
                                (lambda (buffer err)
                                  (cider-repl-emit-stderr buffer err))
                                (lambda (buffer)
-                                 (cider-repl-emit-prompt buffer))))
+                                 (cider-repl-emit-prompt buffer)
+
+                                 ;; scroll to bottom:
+                                 (with-selected-window vemv/repl-window
+                                   (condition-case nil
+                                       (dotimes (i 100)
+                                         (let ((next-screen-context-lines 100))
+                                           (scroll-up '+)))
+                                     (error nil))))))
 
 (defun cider-repl-set-ns (ns)
   "Switch the namespace of the REPL buffer to NS.

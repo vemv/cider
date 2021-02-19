@@ -440,7 +440,7 @@ value is thing at point."
   (interactive
    (list
     (if (cider--prompt-for-symbol-p current-prefix-arg)
-        (completing-read "Resource: "
+        (ido-completing-read "Resource: "
                          (cider-sync-request:resources-list)
                          nil nil
                          (thing-at-point 'filename))
@@ -501,7 +501,7 @@ the results to be displayed in a different window."
   (if ns
       (cider--find-ns ns)
     (let* ((namespaces (cider-sync-request:ns-list))
-           (ns (completing-read "Find namespace: " namespaces)))
+           (ns (ido-completing-read "Find namespace: " namespaces)))
       (cider--find-ns ns (cider--open-other-window-p arg)))))
 
 (defun cider-find-keyword (&optional arg)
@@ -1588,7 +1588,7 @@ Defaults to the current ns.  With prefix arg QUERY, prompts for a ns."
      (with-current-buffer conn
        (cider-ensure-op-supported "toggle-trace-ns")
        (let ((ns (if query
-                     (completing-read "Toggle trace for ns: "
+                     (ido-completing-read "Toggle trace for ns: "
                                       (cider-sync-request:ns-list))
                    (cider-current-ns))))
          (let* ((trace-response (cider-sync-request:toggle-trace-ns ns))
@@ -1913,7 +1913,7 @@ START and END represent the region's boundaries."
   "Describe an nREPL session."
   (interactive)
   (cider-ensure-connected)
-  (let ((selected-session (completing-read "Describe nREPL session: " (nrepl-sessions (cider-current-connection)))))
+  (let ((selected-session (ido-completing-read "Describe nREPL session: " (nrepl-sessions (cider-current-connection)))))
     (when (and selected-session (not (equal selected-session "")))
       (let* ((session-info (nrepl-sync-request:describe (cider-current-connection)))
              (ops (nrepl-dict-keys (nrepl-dict-get session-info "ops")))
@@ -2054,7 +2054,7 @@ With a prefix argument, prompt for function to run instead of -main."
                     (def (or (car cider--namespace-history)
                              (car completions))))
                (format "(#'%s/%s)"
-                       (completing-read (format "Namespace (%s): " def)
+                       (ido-completing-read (format "Namespace (%s): " def)
                                         completions nil t nil
                                         'cider--namespace-history def)
                        name))))

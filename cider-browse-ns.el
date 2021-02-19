@@ -147,7 +147,7 @@ Each item consists of a ns-var and the first line of its docstring."
 ;;;###autoload
 (defun cider-browse-ns (namespace)
   "List all NAMESPACE's vars in BUFFER."
-  (interactive (list (completing-read "Browse namespace: " (cider-sync-request:ns-list))))
+  (interactive (list (ido-completing-read "Browse namespace: " (cider-sync-request:ns-list))))
   (with-current-buffer (cider-popup-buffer cider-browse-ns-buffer t)
     (cider-browse-ns--list (current-buffer)
                            namespace

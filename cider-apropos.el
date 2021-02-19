@@ -138,7 +138,7 @@ optionally search doc strings (based on DOCS-P), include private vars
   (interactive
    (cons (read-string "Search for Clojure symbol (a regular expression): ")
          (when current-prefix-arg
-           (list (let ((ns (completing-read "Namespace (default is all): " (cider-sync-request:ns-list))))
+           (list (let ((ns (ido-completing-read "Namespace (default is all): " (cider-sync-request:ns-list))))
                    (if (string= ns "") nil ns))
                  (y-or-n-p "Search doc strings? ")
                  (y-or-n-p "Include private symbols? ")
@@ -164,7 +164,7 @@ optionally search doc strings (based on DOCS-P), include private vars
   (let* ((first-action-key (car (car cider-apropos-actions)))
          (action-key (if (= 1 (length cider-apropos-actions))
                          first-action-key
-                       (completing-read (format "Choose action to apply to `%s` (default %s): "
+                       (ido-completing-read (format "Choose action to apply to `%s` (default %s): "
                                                 symbol first-action-key)
                                         cider-apropos-actions nil nil nil nil first-action-key)))
          (action-fn (cdr (assoc action-key cider-apropos-actions))))
@@ -185,7 +185,7 @@ optionally search doc strings (based on DOCS-P), include private vars
   (interactive
    (cons (read-string "Search for Clojure symbol (a regular expression): ")
          (when current-prefix-arg
-           (list (let ((ns (completing-read "Namespace (default is all): " (cider-sync-request:ns-list))))
+           (list (let ((ns (ido-completing-read "Namespace (default is all): " (cider-sync-request:ns-list))))
                    (if (string= ns "") nil ns))
                  (y-or-n-p "Search doc strings? ")
                  (y-or-n-p "Include private symbols? ")
@@ -196,7 +196,7 @@ optionally search doc strings (based on DOCS-P), include private vars
                       query ns docs-p privates-p case-sensitive-p))
             (results (mapcar (lambda (r) (nrepl-dict-get r "name"))
                              (cider-sync-request:apropos query ns docs-p privates-p case-sensitive-p))))
-      (cider-apropos-act-on-symbol (completing-read (concat summary ": ") results))
+      (cider-apropos-act-on-symbol (ido-completing-read (concat summary ": ") results))
     (message "No apropos matches for %S" query)))
 
 ;;;###autoload

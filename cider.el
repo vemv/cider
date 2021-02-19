@@ -567,7 +567,7 @@ should be the regular Clojure REPL started by the server process filter."
                    (mapconcat #'buffer-name zombie-buffs ", ")))
       (if (= (length zombie-buffs) 1)
           (car zombie-buffs)
-        (completing-read "Choose REPL buffer: "
+        (ido-completing-read "Choose REPL buffer: "
                          (mapcar #'buffer-name zombie-buffs)
                          nil t)))))
 
@@ -697,10 +697,10 @@ gets associated with it."
                                   (when (file-remote-p default-directory)
                                     ;; add localhost even in remote buffers
                                     '(("localhost"))))))
-         (sel-host (cider--completing-read-host hosts))
+         (sel-host (cider--ido-completing-read-host hosts))
          (host (car sel-host))
          (port (or (cadr sel-host)
-                   (cider--completing-read-port host (cider--infer-ports host ssh-hosts)))))
+                   (cider--ido-completing-read-port host (cider--infer-ports host ssh-hosts)))))
     (list host port)))
 
 (defun cider--ssh-hosts ()
@@ -712,12 +712,12 @@ gets associated with it."
                        '(non-essential)) '(t)
              (tramp-completion-handle-file-name-all-completions "" "/ssh:"))))
 
-(defun cider--completing-read-host (hosts)
+(defun cider--ido-completing-read-host (hosts)
   "Interactively select host from HOSTS.
 Each element in HOSTS is one of: (host), (host port) or (label host port).
 Return a list of the form (HOST PORT), where PORT can be nil."
   (let* ((hosts (cider-join-into-alist hosts))
-         (sel-host (completing-read "Host: " hosts nil nil nil
+         (sel-host (ido-completing-read "Host: " hosts nil nil nil
                                     'cider-host-history (caar hosts)))
          (host (or (cdr (assoc sel-host hosts)) (list sel-host))))
     ;; remove the label
@@ -743,10 +743,10 @@ of remote SSH hosts."
         (with-current-buffer (tramp-get-connection-buffer vec)
           (cider-locate-running-nrepl-ports dir))))))
 
-(defun cider--completing-read-port (host ports)
+(defun cider--ido-completing-read-port (host ports)
   "Interactively select port for HOST from PORTS."
   (let* ((ports (cider-join-into-alist ports))
-         (sel-port (completing-read (format "Port for %s: " host) ports
+         (sel-port (ido-completing-read (format "Port for %s: " host) ports
                                     nil nil nil nil (caar ports)))
          (port (or (cdr (assoc sel-port ports)) sel-port))
          (port (if (listp port) (cadr port) port)))
@@ -799,7 +799,7 @@ choose."
                 (member cider-preferred-build-tool choices))
            cider-preferred-build-tool)
           (multiple-project-choices
-           (completing-read (format "Which command should be used (default %s): " default)
+           (ido-completing-read (format "Which command should be used (default %s): " default)
                             choices nil t nil nil default))
           (choices
            (car choices))

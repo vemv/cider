@@ -1011,7 +1011,7 @@ If invoked in a REPL buffer the command will prompt for the name of the
 namespace to switch to."
   (interactive (list (if (or (derived-mode-p 'cider-repl-mode)
                              (null (cider-ns-form)))
-                         (completing-read "Switch to namespace: "
+                         (ido-completing-read "Switch to namespace: "
                                           (cider-sync-request:ns-list))
                        (cider-current-ns))))
   (when (or (not ns) (equal ns ""))
@@ -1412,7 +1412,7 @@ constructs."
   (interactive)
   (if (> (point) cider-repl-input-start-mark)
       (insert (string cider-repl-shortcut-dispatch-char))
-    (let ((command (completing-read "Command: "
+    (let ((command (ido-completing-read "Command: "
                                     (cider-repl--available-shortcuts))))
       (if (not (equal command ""))
           (let ((command-func (gethash command cider-repl-shortcuts)))

@@ -314,7 +314,7 @@ Generates a new example for the current spec."
 ;;;###autoload
 (defun cider-browse-spec (spec)
   "Browse SPEC definition."
-  (interactive (list (completing-read "Browse spec: "
+  (interactive (list (ido-completing-read "Browse spec: "
                                       (cider-sync-request:spec-list)
                                       nil nil
                                       (cider-symbol-at-point))))

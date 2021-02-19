@@ -199,7 +199,7 @@ the `current-buffer'."
 
 (defun cider-read-connection (prompt)
   "Completing read for connections using PROMPT."
-  (get-buffer (completing-read prompt (mapcar #'buffer-name (cider-connections)))))
+  (get-buffer (ido-completing-read prompt (mapcar #'buffer-name (cider-connections)))))
 
 (defun cider-assoc-project-with-connection (&optional project connection)
   "Associate a Clojure PROJECT with an nREPL CONNECTION.
@@ -813,7 +813,7 @@ contain a `candidates' key, it is returned as is."
   (let ((candidates (nrepl-dict-get var-info "candidates")))
     (if candidates
         (let* ((classes (nrepl-dict-keys candidates))
-               (choice (completing-read "Member in class: " classes nil t))
+               (choice (ido-completing-read "Member in class: " classes nil t))
                (info (nrepl-dict-get candidates choice)))
           info)
       var-info)))
